@@ -6,17 +6,17 @@
 //----------------------------------------------------------------目前僅完成上下左右
 
 int chess[8][8]={ //棋盤
-    {1,2,0,1,1,1,0,2},
+    {1,2,0,2,1,1,0,2},
     {0,0,0,0,0,0,0,0},
     {0,0,0,0,0,0,0,0},
     {0,0,0,2,1,0,0,0},
     {0,0,0,1,2,0,0,0},
-    {0,0,0,0,0,0,0,0},
+    {0,0,2,0,0,0,0,0},
     {0,0,0,0,0,0,0,0},
     {0,0,0,0,0,0,0,0}};
 
 int nowcolor = black;//將要落子的顏色 //黑先落子
-int i,j; //迴圈用
+int i; //迴圈用
 int yes_or_no(int,int); //先定義函式
 
 int main() {
@@ -37,7 +37,7 @@ int main() {
 
 //檢測是否可以落子
 int yes_or_no(int y,int x) {
-    int Ltemp=0,Rtemp=0,Utemp=0,Dtemp=0;
+    int Ltemp=0,Rtemp=0,Utemp=0,Dtemp=0,LUtemp=0,LDtemp=0,RUtemp=0,RDtemp=0;
 
     for(i=0; i<x-1; i++){ //由左到判斷點
         if (chess[y][i]==nowcolor) //目前位置是否為當前的落子顏色
@@ -47,8 +47,8 @@ int yes_or_no(int y,int x) {
     }
     if(chess[y][x-1]==nowcolor) //若當前落子位置左邊一顆為當前落子顏色 則以左邊來看無法落子
         Ltemp=0;
-
-    for(i=7; i<x+1; i--){ //由右到判斷點
+    
+    for(i=7; i>x+1; i--){ //由右到判斷點
         if (chess[y][i]==nowcolor)
             Rtemp=1;
         if (chess[y][i]==space)
@@ -67,7 +67,7 @@ int yes_or_no(int y,int x) {
         Utemp=0;
     
 
-    for(i=7; i<y+1; i--){ //由下到判斷點
+    for(i=7; i>y+1; i--){ //由下到判斷點
         if (chess[i][x]==nowcolor) 
             Dtemp=1;
         if (chess[i][x]==space) 
@@ -76,11 +76,64 @@ int yes_or_no(int y,int x) {
     if(chess[y+1][x]==nowcolor) 
         Dtemp=0;
 
-    if (Ltemp==0 && Rtemp==0 && Dtemp==0 && Utemp==0){ //
+    i=0;
+    while(1){
+        i++;
+        if (x+i>7||y+i>7)
+            break;
+        if (chess[y+i][x+i]==nowcolor){
+            RDtemp=1;
+            break;
+        }
+    }
+    if(chess[y+1][x+1]==nowcolor) 
+        RDtemp=0;
+    
+    i=0;
+    while(1){
+        i++;
+        if (x+i>7||y-i<0)
+            break;
+        if (chess[y-i][x+i]==nowcolor){
+            RDtemp=1;
+            break;
+        }
+    }
+    if(chess[y-1][x+1]==nowcolor) 
+        RDtemp=0;
+    
+    i=0;
+    while(1){
+        i++;
+        if (x-i<0||y+i>7)
+            break;
+        if (chess[y+i][x-i]==nowcolor){
+            RDtemp=1;
+            break;
+        }
+    }
+    if(chess[y+1][x-1]==nowcolor) 
+        RDtemp=0;
+    
+    i=0;
+    while(1){
+        i++;
+        if (x-i<0||y-i<0)
+            break;
+        if (chess[y-i][x-i]==nowcolor){
+            RDtemp=1;
+            break;
+        }
+    }
+    if(chess[y-1][x-1]==nowcolor) 
+        RDtemp=0;
+    
+
+
+    if (Ltemp+Rtemp+Utemp+Dtemp+LUtemp+LDtemp+RUtemp+RDtemp==0){
         return 0;
     }else{
         return 1; 
     }
     
 }
-//tempPos=i;//最後偵測到的當前顏色子的位置
