@@ -3,7 +3,7 @@
 #define white 1 //白棋
 #define black 2 //黑棋
 
-//----------------------------------------------------------------目前僅完成上下左右
+//----------------------------------------------------------------未完成巢狀迴圈
 
 int chess[8][8]={ //棋盤
     {1,2,0,2,1,1,0,2},
@@ -23,6 +23,13 @@ int main() {
     int newX, newY;
     int yesno = 0;
     scanf("%d%d",&newX,&newY);//掃描要落子的位置
+
+    if (newX>7||newX<0||newY>7||newY<0){
+        printf("不可落子");
+        return 0;
+    }
+
+    printf("%d %d %d",chess[newY][newX],newX,newY);
     if (chess[newY][newX]==space)
         yesno = yes_or_no(newY, newX);//呼叫函式 檢查當下要落子的位置是否可行
     
@@ -39,39 +46,45 @@ int main() {
 int yes_or_no(int y,int x) {
     int Ltemp=0,Rtemp=0,Utemp=0,Dtemp=0,LUtemp=0,LDtemp=0,RUtemp=0,RDtemp=0;
 
-    for(i=0; i<x-1; i++){ //由左到判斷點
-        if (chess[y][i]==nowcolor) //目前位置是否為當前的落子顏色
+    while(1){
+        i++;
+        if (x-i<0)
+            break;
+        if (chess[y][x-i]==nowcolor)
             Ltemp=1;
-        if (chess[y][i]==space) //目前位置是否有棋子 若沒有則要再重新判斷是否可落子
-            Ltemp=0;
     }
     if(chess[y][x-1]==nowcolor) //若當前落子位置左邊一顆為當前落子顏色 則以左邊來看無法落子
         Ltemp=0;
-    
-    for(i=7; i>x+1; i--){ //由右到判斷點
-        if (chess[y][i]==nowcolor)
-            Rtemp=1;
-        if (chess[y][i]==space)
-            Rtemp=0;
+
+    i=0;
+    while(1){
+        i++;
+        if (x+i>7)
+            break;
+        if (chess[y][x+i]==nowcolor)
+            Ltemp=1;
     }
     if(chess[y][x+1]==nowcolor) 
         Rtemp=0;
 
-    for(i=0; i<y-1; i++){ //由上到判斷點
-        if (chess[i][x]==nowcolor) 
-            Utemp=1;
-        if (chess[i][x]==space) 
-            Utemp=0;
+    i=0;
+    while(1){//上
+        i++;
+        if (y-i<0)
+            break;
+        if (chess[y-i][x]==nowcolor)
+            Ltemp=1;
     }
     if(chess[y-1][x]==nowcolor) 
-        Utemp=0;
+        Utemp=0; 
     
-
-    for(i=7; i>y+1; i--){ //由下到判斷點
-        if (chess[i][x]==nowcolor) 
-            Dtemp=1;
-        if (chess[i][x]==space) 
-            Dtemp=0;
+    i=0;
+    while(1){//下
+        i++;
+        if (y+i>7)
+            break;
+        if (chess[y+i][x]==nowcolor)
+            Ltemp=1;
     }
     if(chess[y+1][x]==nowcolor) 
         Dtemp=0;
@@ -137,3 +150,4 @@ int yes_or_no(int y,int x) {
     }
     
 }
+
