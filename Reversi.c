@@ -23,7 +23,7 @@ int main() {
     int newX, newY;
     int yesno = 0;
     scanf("%d%d",&newX,&newY);//掃描要落子的位置
-    scanf("%d",&nowcolor);
+    scanf("%d",&nowcolor);//掃描顏色
 
     if (newX>7||newX<0||newY>7||newY<0){
         printf("不可落子");
@@ -159,4 +159,3 @@ int yes_or_no(int y,int x) {
     }
     
 }
-
