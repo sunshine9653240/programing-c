@@ -46,6 +46,7 @@ int main() {
 int yes_or_no(int y,int x) {
     int Ltemp=0,Rtemp=0,Utemp=0,Dtemp=0,LUtemp=0,LDtemp=0,RUtemp=0,RDtemp=0;
 
+    i=0;
     while(1){
         i++;
         if (x-i<0)
@@ -108,12 +109,12 @@ int yes_or_no(int y,int x) {
         if (x+i>7||y-i<0)
             break;
         if (chess[y-i][x+i]==nowcolor){
-            RDtemp=1;
+            RUtemp=1;
             break;
         }
     }
     if(chess[y-1][x+1]==nowcolor) 
-        RDtemp=0;
+        RUtemp=0;
     
     i=0;
     while(1){
@@ -121,12 +122,12 @@ int yes_or_no(int y,int x) {
         if (x-i<0||y+i>7)
             break;
         if (chess[y+i][x-i]==nowcolor){
-            RDtemp=1;
+            LDtemp=1;
             break;
         }
     }
     if(chess[y+1][x-1]==nowcolor) 
-        RDtemp=0;
+        LDtemp=0;
     
     i=0;
     while(1){
@@ -134,12 +135,12 @@ int yes_or_no(int y,int x) {
         if (x-i<0||y-i<0)
             break;
         if (chess[y-i][x-i]==nowcolor){
-            RDtemp=1;
+            LUtemp=1;
             break;
         }
     }
     if(chess[y-1][x-1]==nowcolor) 
-        RDtemp=0;
+        LUtemp=0;
     
 
 
