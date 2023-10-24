@@ -23,16 +23,24 @@ int main() {
     int newX, newY;
     int yesno = 0;
     scanf("%d%d",&newX,&newY);//掃描要落子的位置
+    scanf("%d",&nowcolor);
 
     if (newX>7||newX<0||newY>7||newY<0){
         printf("不可落子");
         return 0;
     }
 
-    printf("%d %d %d",chess[newY][newX],newX,newY);
-    if (chess[newY][newX]==space)
+    if (chess[newY][newX]==space){
         yesno = yes_or_no(newY, newX);//呼叫函式 檢查當下要落子的位置是否可行
-    
+        printf("空白\n");
+    }
+    else if (chess[newY][newX]==black){
+        printf("黑\n");
+    }
+    else{ 
+        printf("白\n");
+    }
+
     if (yesno==1){ 
         printf("可以落子");
     }    
@@ -49,7 +57,7 @@ int yes_or_no(int y,int x) {
     i=0;
     while(1){
         i++;
-        if (x-i<0)
+        if (x-i<0||chess[y][x-1]==space)
             break;
         if (chess[y][x-i]==nowcolor)
             Ltemp=1;
@@ -60,7 +68,7 @@ int yes_or_no(int y,int x) {
     i=0;
     while(1){
         i++;
-        if (x+i>7)
+        if (x+i>7||chess[y][x+1]==space)
             break;
         if (chess[y][x+i]==nowcolor)
             Ltemp=1;
@@ -71,7 +79,7 @@ int yes_or_no(int y,int x) {
     i=0;
     while(1){//上
         i++;
-        if (y-i<0)
+        if (y-i<0||chess[y-i][x]==space)
             break;
         if (chess[y-i][x]==nowcolor)
             Ltemp=1;
@@ -82,7 +90,7 @@ int yes_or_no(int y,int x) {
     i=0;
     while(1){//下
         i++;
-        if (y+i>7)
+        if (y+i>7||chess[y+i][x]==space)
             break;
         if (chess[y+i][x]==nowcolor)
             Ltemp=1;
@@ -93,7 +101,7 @@ int yes_or_no(int y,int x) {
     i=0;
     while(1){
         i++;
-        if (x+i>7||y+i>7)
+        if (x+i>7||y+i>7||chess[y+i][x+1]==space)
             break;
         if (chess[y+i][x+i]==nowcolor){
             RDtemp=1;
@@ -106,7 +114,7 @@ int yes_or_no(int y,int x) {
     i=0;
     while(1){
         i++;
-        if (x+i>7||y-i<0)
+        if (x+i>7||y-i<0||chess[y-i][x+1]==space)
             break;
         if (chess[y-i][x+i]==nowcolor){
             RUtemp=1;
@@ -119,7 +127,7 @@ int yes_or_no(int y,int x) {
     i=0;
     while(1){
         i++;
-        if (x-i<0||y+i>7)
+        if (x-i<0||y+i>7||chess[y+i][x-1]==space)
             break;
         if (chess[y+i][x-i]==nowcolor){
             LDtemp=1;
@@ -132,7 +140,7 @@ int yes_or_no(int y,int x) {
     i=0;
     while(1){
         i++;
-        if (x-i<0||y-i<0)
+        if (x-i<0||y-i<0||chess[y-i][x-1]==space)
             break;
         if (chess[y-i][x-i]==nowcolor){
             LUtemp=1;
