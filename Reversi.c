@@ -3,7 +3,7 @@
 #define WHITE 1 //白棋
 #define BLACK 2 //黑棋
 
-//----------------------------------------------------------------未完成巢狀迴圈
+//----------------------------------------------------------------未完成與電腦下 目前是自己跟自己下
 
 int chess[8][8]={ //棋盤
     {0,0,0,0,0,0,0,0},
@@ -16,41 +16,29 @@ int chess[8][8]={ //棋盤
     {0,0,0,0,0,0,0,0}};
 
 int Ltemp=0,Rtemp=0,Utemp=0,Dtemp=0,LUtemp=0,LDtemp=0,RUtemp=0,RDtemp=0;
-int yes_or_no(int,int); //先定義函式
+int nowcolor=0;
+
+//先定義函式
+int yes_or_no(int,int); 
 int scanboard();
 void reverse(int,int);
 void printchess();
-int nowcolor=0;
+void computurn();
+void wherecan();
 
 int main() {
     int i=0;
+    int newX, newY;
+    int yesno = 0;
+    int colortemp = 0;
+    scanf("要落子的顏色(1=白,2=黑):%d",&colortemp);//掃描顏色
+
     while(scanboard()){
         printchess();
+        wherecan();
 
-        for(i=1;i<3;i++){
-            if (i==WHITE){
-                printf("白子可下 : ");
-                nowcolor = WHITE;
-            }
-            else if (i==BLACK){
-                printf("\n黑子可下 : ");
-                nowcolor = BLACK;
-            }
-
-            for(int j=0;j<8;j++){
-                for(int k=0;k<8;k++){
-                    if(chess[k][j]!=0)
-                        continue;
-                    if(yes_or_no(k,j)!=0)
-                        printf("(%d,%d)",j,k);
-                }
-            }
-        }
-
-        int newX, newY;
-        int yesno = 0;
-        scanf("%d%d",&newX,&newY);//掃描要落子的位置
-        scanf("%d",&nowcolor);//掃描顏色
+        scanf("請落子(x,y):%d%d",&newX,&newY);//掃描要落子的位置
+        nowcolor = colortemp;
 
         if (newX>7||newX<0||newY>7||newY<0){
             printf("不可落子");
@@ -69,16 +57,18 @@ int main() {
         
         yesno = yes_or_no(newY, newX);//呼叫函式 檢查當下要落子的位置是否可行
         if (yesno == 1){
-            printf("可以落子 要落子嗎(1 or 0):");
-            reverse(newY, newX);
+            printf("可以落子 要落子嗎(1 or 0):%d",&yesno);
+            if(yesno == 1){
+                reverse(newY, newX);
+                colortemp=colortemp%2+1;
+            }
         }
     }
     return 0;
 }
-//
-//
-//檢測是否可以落子
-int yes_or_no(int y,int x) {
+
+
+int yes_or_no(int y,int x) {//檢測是否可以落子
     
     int i; //迴圈用
     i=0;
@@ -126,7 +116,7 @@ int yes_or_no(int y,int x) {
         Dtemp=0;
 
     i=0;
-    while(1){
+    while(1){//右下
         i++;
         if (x+i>7||y+i>7||chess[y+i][x+i]==SPACE)
             break;
@@ -139,7 +129,7 @@ int yes_or_no(int y,int x) {
         RDtemp=0;
     
     i=0;
-    while(1){
+    while(1){//右上
         i++;
         if (x+i>7||y-i<0||chess[y-i][x+i]==SPACE)
             break;
@@ -152,7 +142,7 @@ int yes_or_no(int y,int x) {
         RUtemp=0;
     
     i=0;
-    while(1){
+    while(1){//左下
         i++;
         if (x-i<0||y+i>7||chess[y+i][x-i]==SPACE)
             break;
@@ -165,7 +155,7 @@ int yes_or_no(int y,int x) {
         LDtemp=0;
     
     i=0;
-    while(1){
+    while(1){//左上
         i++;
         if (x-i<0||y-i<0||chess[y-i][x-i]==SPACE)
             break;
@@ -187,7 +177,7 @@ int yes_or_no(int y,int x) {
     
 }
 
-void reverse(int y,int x){
+void reverse(int y,int x){//翻轉棋子
     int i=0;
     if (Ltemp=1){
         while(1){
@@ -264,7 +254,7 @@ void reverse(int y,int x){
     printchess();
 }
 
-void printchess(){
+void printchess(){//印出棋盤
     for (int i=0; i<8; i++) {
         for (int j=0; j<8; j++) {
             printf("%d ",chess[i][j]);
@@ -273,7 +263,7 @@ void printchess(){
     }
 }
 
-int scanboard(){
+int scanboard(){//檢查棋盤是否還有可落子的地方
     for (int i=0; i<8; i++) {
         for (int j=0; j<8; j++) {
             if (chess[i][j]==0)
@@ -281,4 +271,30 @@ int scanboard(){
         }
     }
     return 0;
+}
+void wherecan(){//印出白子黑子可下
+    for(int i=1;i<3;i++){
+            if (i==WHITE){
+                printf("白子可下 : ");
+                nowcolor = WHITE;
+            }
+            else if (i==BLACK){
+                printf("\n黑子可下 : ");
+                nowcolor = BLACK;
+            }
+
+            for(int j=0;j<8;j++){
+                for(int k=0;k<8;k++){
+                    if(chess[k][j]!=0)
+                        continue;
+                    if(yes_or_no(k,j)!=0)
+                        printf("(%d,%d)",j,k);
+                }
+            }
+        }
+        printf("\n");
+}
+
+void computurn(){//電腦下 未完成
+
 }
