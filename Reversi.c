@@ -3,7 +3,7 @@
 #define WHITE 1 //白棋
 #define BLACK 2 //黑棋
 
-//----------------------------------------------------------------已完成
+//----------------------------------------------------------------未完成與電腦下 目前是自己跟自己下
 
 int chess[8][8]={ //棋盤
     {0,0,0,0,0,0,0,0},
@@ -18,7 +18,7 @@ int chess[8][8]={ //棋盤
 int Ltemp=0,Rtemp=0,Utemp=0,Dtemp=0,LUtemp=0,LDtemp=0,RUtemp=0,RDtemp=0;
 int total=0,maxX=0,maxY=0; //紀錄可翻幾顆子 電腦下棋用 
 int newX, newY;
-
+int ai_or_user=1;//user 1 ai 0
 //先定義函式
 int yes_or_no(int,int,int); 
 int scanboard(int);
@@ -31,7 +31,6 @@ int main() {
     int i=0;
     int yesno = 0;
     int nowcolor=0;
-    int ai_or_user=1;//user 1 ai 0
     printf("要落子的顏色(1=白,2=黑):");
     scanf("%d",&nowcolor);//掃描顏色
     int firstcolor = nowcolor;
@@ -45,7 +44,7 @@ int main() {
                 printf("可以落子 要落子嗎(1 or 0):");
                 scanf("%d",&yesno);
                 if(yesno == 1){
-                    reverse(newY, newX, nowcolor);
+                    reverse(newY, newX, nowcolor);//翻轉 
                     nowcolor=nowcolor%2+1;
                 }
             }
@@ -58,7 +57,7 @@ int main() {
         }
         
     }
-    printchess();//結束棋盤
+    printchess();//結束時的棋盤
     int user=0, ai=0;
     for (int i=0; i<8; i++) {
         for (int j=0; j<8; j++) {
@@ -299,12 +298,17 @@ void printchess(){//印出棋盤
 }
 
 int scanboard(int nowcolor){//檢查棋盤是否還有可落子的地方
-    for(int j=0;j<8;j++){
-        for(int k=0;k<8;k++){
-            if(chess[k][j]!=0)
-                continue;
-            if(yes_or_no(k,j,nowcolor)!=0)
-                return 1;
+    for (int i=1; i<3; i++) {
+        for(int j=0;j<8;j++){
+            for(int k=0;k<8;k++){
+                if(chess[k][j]!=0)
+                    continue;
+                if(yes_or_no(k,j,i)!=0){
+                    if (i!=nowcolor)
+                        ai_or_user= !ai_or_user;
+                    return 1;
+                }
+            }
         }
     }
     return 0;
