@@ -3,7 +3,8 @@
 #define WHITE 1 //白棋
 #define BLACK 2 //黑棋
 
-//----------------------------------------------------------------下棋溢位
+//----------------------------------------------------------------未完成與電腦下 目前是自己跟自己下
+
 int chess[8][8]={ //棋盤
     {0,0,0,0,0,0,0,0},
     {0,0,0,0,0,0,0,0},
@@ -57,11 +58,14 @@ int main() {
         }
         
     }
+    printchess();
+    
     return 0;
 }
 
 
 int yes_or_no(int y,int x,int nowcolor) {//檢測是否可以落子
+    //printf("yes_or_no(%d,%d,%d)\n", y,x,nowcolor);
     Ltemp=0,Rtemp=0,Utemp=0,Dtemp=0,LUtemp=0,LDtemp=0,RUtemp=0,RDtemp=0;
     int i; //迴圈用
     i=0;
@@ -198,6 +202,7 @@ void reverse(int y,int x,int nowcolor){//翻轉棋子
                 chess[y][x-i]=nowcolor;
         }
     }
+    i = 0;
     if (Rtemp!=0){
         while(1){
             i++;
@@ -207,6 +212,7 @@ void reverse(int y,int x,int nowcolor){//翻轉棋子
                 chess[y][x+i]=nowcolor;
         }
     }
+    i = 0;
     if (Utemp!=0){
         while(1){
             i++;
@@ -216,6 +222,7 @@ void reverse(int y,int x,int nowcolor){//翻轉棋子
                 chess[y-i][x]=nowcolor;
         }
     }
+    i = 0;
     if (Dtemp!=0){
         while(1){
             i++;
@@ -225,6 +232,7 @@ void reverse(int y,int x,int nowcolor){//翻轉棋子
                 chess[y+i][x]=nowcolor;
         }
     }
+    i = 0;
     if (RDtemp!=0){
         while(1){
             i++;
@@ -234,6 +242,7 @@ void reverse(int y,int x,int nowcolor){//翻轉棋子
                 chess[y+i][x+i]=nowcolor;
         }
     }
+    i = 0;
     if (RUtemp!=0){
         while(1){
             i++;
@@ -243,6 +252,7 @@ void reverse(int y,int x,int nowcolor){//翻轉棋子
                 chess[y-i][x+i]=nowcolor;
         }
     }
+    i = 0;
     if (LDtemp!=0){
         while(1){
             i++;
@@ -252,6 +262,7 @@ void reverse(int y,int x,int nowcolor){//翻轉棋子
                 chess[y+i][x-i]=nowcolor;
         }
     }
+    i = 0;
     if (LUtemp!=0){
         while(1){
             i++;
