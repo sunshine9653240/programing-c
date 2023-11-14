@@ -3,14 +3,14 @@
 #define WHITE 1 //白棋
 #define BLACK 2 //黑棋
 
-//----------------------------------------------------------------未完成與電腦下 目前是自己跟自己下
+//----------------------------------------------------------------已完成
 
 int chess[8][8]={ //棋盤
     {0,0,0,0,0,0,0,0},
     {0,0,0,0,0,0,0,0},
     {0,0,0,0,0,0,0,0},
-    {0,0,0,2,1,0,0,0},
-    {0,0,0,1,2,0,0,0},
+    {0,0,0,0,0,0,0,0},
+    {0,0,0,1,0,0,0,0},
     {0,0,0,0,0,0,0,0},
     {0,0,0,0,0,0,0,0},
     {0,0,0,0,0,0,0,0}};
@@ -21,7 +21,7 @@ int newX, newY;
 
 //先定義函式
 int yes_or_no(int,int,int); 
-int scanboard();
+int scanboard(int);
 void reverse(int,int,int);
 void printchess();
 void AIturn(int);
@@ -34,8 +34,8 @@ int main() {
     int ai_or_user=1;//user 1 ai 0
     printf("要落子的顏色(1=白,2=黑):");
     scanf("%d",&nowcolor);//掃描顏色
-
-    while(scanboard()){
+    int firstcolor = nowcolor;
+    while(scanboard(nowcolor)){
         printchess();
         
         if (ai_or_user==1){//是誰在下棋
@@ -58,8 +58,23 @@ int main() {
         }
         
     }
-    printchess();
-    
+    printchess();//結束棋盤
+    int user=0, ai=0;
+    for (int i=0; i<8; i++) {
+        for (int j=0; j<8; j++) {
+            if (chess[i][j]==firstcolor)
+                user++;
+            if (chess[i][j]==firstcolor%2+1) 
+                ai++;
+        }
+    }
+    if(ai>user)
+        printf("你輸了，輸%d子",ai-user);
+    if(ai<user)
+        printf("你贏了，贏%d子",user-ai);
+    if(ai==user)
+        printf("此局平手");
+
     return 0;
 }
 
@@ -283,15 +298,18 @@ void printchess(){//印出棋盤
     }
 }
 
-int scanboard(){//檢查棋盤是否還有可落子的地方
-    for (int i=0; i<8; i++) {
-        for (int j=0; j<8; j++) {
-            if (chess[i][j]==0)
+int scanboard(int nowcolor){//檢查棋盤是否還有可落子的地方
+    for(int j=0;j<8;j++){
+        for(int k=0;k<8;k++){
+            if(chess[k][j]!=0)
+                continue;
+            if(yes_or_no(k,j,nowcolor)!=0)
                 return 1;
         }
     }
     return 0;
 }
+
 
 void wherecan(int nowcolor){//印出白子黑子可下位置 並讀入落子位置
     for(int i=1;i<3;i++){
