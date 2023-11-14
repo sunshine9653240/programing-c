@@ -352,7 +352,7 @@ void wherecan(int nowcolor){//印出白子黑子可下位置 並讀入落子位�
     }
 }
 
-void AIturn(int nowcolor){//電腦下 未完成
+void AIturn(int nowcolor){//電腦下
     maxX=0,maxY=0,total=0;
     for(int j=0;j<8;j++){
         for(int k=0;k<8;k++){
